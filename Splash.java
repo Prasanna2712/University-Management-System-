@@ -1,53 +1,50 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Splash extends JFrame implements Runnable
-{
+public class Splash extends JFrame implements Runnable {
     Thread t;
-    Splash()
-    {
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/enhanced_logo.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(900, 600, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        add(image);
+    JLabel imageLabel;
+
+    Splash() {
+        // Load image but don't scale it yet
+        ImageIcon original = new ImageIcon(ClassLoader.getSystemResource("icons/des1.jpeg"));
+        Image rawImage = original.getImage();
+
+        // Create JLabel but don't set size yet
+        imageLabel = new JLabel(new ImageIcon(rawImage));
+        add(imageLabel);
+
+        setUndecorated(true); // No title bar
+        setVisible(true);
+
+       
+        // Now go fullscreen and scale image to fit screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+
+        Image scaled = rawImage.getScaledInstance(screenWidth, screenHeight, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(scaled));
+        imageLabel.setSize(screenWidth, screenHeight);
+
+        setSize(screenWidth, screenHeight);
+        setLocation(0, 0);
 
         t = new Thread(this);
         t.start();
-        setVisible(true);
-
-        int x = 1;
-        for (int i = 2; i <= 600; i+=4,x+=1)
-        {
-            setLocation(600-((i+x)/2),350-(i/2));
-            setSize(i+3*x, i+x/2);
-
-            try
-            {
-                Thread.sleep(10);
-            }
-            catch(Exception e)
-            {
-                System.out.print(" ");
-            }
-            }
     }
-    public void run()
-    {
-        try
-        {
-            Thread.sleep(4000);
+
+    public void run() {
+        try {
+            Thread.sleep(4000); // Hold splash
             setVisible(false);
-            // Next Frame
-            new Login();
-        }
-        catch(Exception e)
-        {
-            System.out.print("");
+            new Login(); // Move to next frame
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
-    public static void main(String []args)
-    {
-       new Splash();
+
+    public static void main(String[] args) {
+        new Splash();
     }
 }
