@@ -6,7 +6,7 @@ public class Splash extends JFrame implements Runnable {
     JLabel imageLabel;
 
     Splash() {
-        // Load image but don't scale it yet
+        // Load image 
         ImageIcon original = new ImageIcon(ClassLoader.getSystemResource("icons/des1.jpeg"));
         Image rawImage = original.getImage();
 
@@ -14,11 +14,11 @@ public class Splash extends JFrame implements Runnable {
         imageLabel = new JLabel(new ImageIcon(rawImage));
         add(imageLabel);
 
-        setUndecorated(true); // No title bar
+        setUndecorated(true); 
         setVisible(true);
 
        
-        // Now go fullscreen and scale image to fit screen
+        
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
